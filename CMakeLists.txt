@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 
+set(PROJECT_NAME "gpio_toggle_demo")
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/toolchain.cmake")
+set(APP_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/Demo")
 
-project(gpio_toggle_demo.elf C ASM)
+project(${PROJECT_NAME} C ASM)
 
 include_directories(include
                     ${twilio-microvisor-hal-stm32u5_INCLUDE_DIRS})
@@ -29,9 +31,7 @@ set(INCLUDED_HAL_FILES
   Drivers/CMSIS/Device/ST/STM32U5xx/Source/Templates/system_stm32u5xx_ns.c
   Drivers/CMSIS/Device/ST/STM32U5xx/Source/Templates/gcc/startup_stm32u585xx.s
 )
-set(CONFIG_DIRECTORY
-  "${CMAKE_SOURCE_DIR}/Config"
-)
+
 add_subdirectory(twilio-microvisor-hal-stm32u5)
 
 add_library(ST_Code STATIC
@@ -66,6 +66,4 @@ target_include_directories(FreeRTOS PUBLIC
   FreeRTOS-Kernel/portable/GCC/ARM_CM33_NTZ/non_secure
 )
 
-add_subdirectory(Demo)
-
-unset(CONFIG_DIRECTORY)
+add_subdirectory(${APP_SRC_DIRECTORY})
