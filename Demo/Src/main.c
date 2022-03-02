@@ -16,36 +16,38 @@ int main(void) {
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
-    /* USER CODE BEGIN 2 */
 
     /* Create the thread(s) */
-    //xTaskCreate(StartDebugTask, "DebugTask", 512, NULL, 1, NULL);
+    xTaskCreate(StartDebugTask, "DebugTask", 512, NULL, 1, NULL);
     xTaskCreate(StartGPIOTask,   "GPIOTask", 512, NULL, 1, NULL);
 
     /* Start scheduler */
     vTaskStartScheduler();
 
     /* We should never get here as control is now taken by the scheduler */
-    /* Infinite loop */
-    /* USER CODE BEGIN WHILE */
-
     while (true) {
         // NOP
     }
 }
 
+
+/**
+  * @brief Get the clock value
+  * @retval None
+  */
 uint32_t SECURE_SystemCoreClockUpdate() {
     uint32_t clock = 0;
     mvGetHClk(&clock);
     return clock;
 }
 
+
 /**
   * @brief System Clock Configuration
   * @retval None
   */
 void SystemClock_Config(void) {
-    SystemCoreClockUpdate();
+    SystemCoreClockUpdate();        // Calls SECURE_SystemCoreClockUpdate()
     HAL_InitTick(TICK_INT_PRIORITY);
 }
 
