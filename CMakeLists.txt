@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/toolchain.cmake")
 
+find_program(OPENSSL "openssl")
+
+set(DEBUG_AUTH_PUBKEY "" CACHE STRING "Debug authentication key")
+
 project(gpio_toggle_demo.elf C ASM)
 
 include_directories(include
